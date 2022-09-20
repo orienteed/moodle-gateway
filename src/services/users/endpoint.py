@@ -67,28 +67,25 @@ def modify_customer(authorization: str = Depends(token_auth_scheme), customer: C
     user_data = usersDAO.get_user_data_by_magento_token(
         request.headers.get("csr-authorization"))
     user_id = user_data[0]
-    # moodle_token = user_data[3]
 
     customParams = {
         'moodlewsrestformat': 'json',
         'wstoken': os.getenv('MOODLE_API_KEY_DOCKER'),
-        'wsfunction': 'core_user_update_users'
-    }
-
-    customBody = {
+        'wsfunction': 'core_user_update_users',
         'users[0][id]': user_id,
         'users[0][username]': customer.username.lower(),
         'users[0][firstname]': customer.firstname,
         'users[0][lastname]': customer.lastname,
-        'users[0][email]': customer.username,
-        'users[0][password]': customer.password
+        'users[0][email]': customer.username
     }
 
-    print(customBody)
+    if customer.password is not None:
+        customParams['users[0][password]'] = customer.password
 
     reply = requests.post('{}/webservice/rest/server.php'.format(
-        os.getenv('MOODLE_URL_DOCKER')), params=customParams, json=customBody)
+        os.getenv('MOODLE_URL_DOCKER')), params=customParams)
 
-    print(reply.json())
+    if reply.json() == None:
+        usersDAO.update_username_by_id(customer.username, user_id)
 
     return JSONResponse({"message": "User modification successfully"})

@@ -41,6 +41,15 @@ class usersDAO:
         except Exception as e:
             print('update_user_data: ' + str(e))
 
+    def update_username_by_id(username, id):
+        agent = Agent()
+        query = f"UPDATE users SET username = '{username}' WHERE id = '{id}'"
+        try:
+            result = agent.update(query)
+            return result
+        except Exception as e:
+            print('update_user_email_by_id: ' + str(e))
+
     def update_token_date(magento_token):
         agent = Agent()
         query = f"UPDATE users SET last_use_date = '{datetime.now()}' WHERE magento_token = '{magento_token}'"
