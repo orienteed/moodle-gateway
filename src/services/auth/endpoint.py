@@ -12,7 +12,7 @@ router = APIRouter(route_class=VerifyTokenRoute)
 token_auth_scheme = HTTPBearer()
 
 
-@router.post('/login')
+@router.post("/login")
 async def login(authorization: str = Depends(token_auth_scheme), request: Request = None):
     requestData = await request.json()
     customer = json.loads(request.headers["customer"])
@@ -23,20 +23,23 @@ async def login(authorization: str = Depends(token_auth_scheme), request: Reques
 
     user = usersDAO.get_user_data_by_username(username)
     if user is None:
-        customerId = createCustomer(customer, requestData['password'])['id']
+        customerId = createCustomer(customer, requestData["password"])["id"]
     else:
         customerId = user[0]
 
-    moodle_token = getCustomerToken(
-        customer, requestData['password'])
+    try:
+        moodle_token = getCustomerToken(customer, requestData["password"])
+    except:
+        moodle_token = ""
+        print("Error generating Moodle token")
 
-    usersDAO.create_and_update_user(
-        customerId, username, magento_token, moodle_token)
+    print("Inserting user in the db")
+    usersDAO.create_and_update_user(customerId, username, magento_token, moodle_token)
 
     return JSONResponse({"message": "Login successfully"})
 
 
-@ router.post('/logout')
+@router.post("/logout")
 async def logout(authorization: str = Depends(token_auth_scheme), request: Request = None):
     token = request.headers.get("api-authorization")
     usersDAO.remove_token_by_token(token)
