@@ -1,18 +1,28 @@
+from ctypes.util import find_library
 from datetime import datetime
+from re import T
+import threading
 from fastapi import Query
 from .agent import Agent
 import uuid
 
 
+lock = threading.Lock()
+
+
 class usersDAO:
     def get_user_data_by_magento_token(magento_token):
-        agent = Agent()
-        query = f"SELECT id, username, magento_token, moodle_token, last_use_date FROM users WHERE magento_token = '{magento_token}'"
         try:
-            result = agent.read(query)
-            return result
-        except Exception as e:
-            print('get_user_data_by_magento_token: ' + str(e))
+            lock.acquire(True)
+            agent = Agent()
+            query = f"SELECT id, username, magento_token, moodle_token, last_use_date FROM users WHERE magento_token = '{magento_token}'"
+            try:
+                result = agent.read(query)
+                return result
+            except Exception as e:
+                print("get_user_data_by_magento_token: " + str(e))
+        finally:
+            lock.release()
 
     def get_user_data_by_username(username):
         agent = Agent()
@@ -21,7 +31,7 @@ class usersDAO:
             result = agent.read(query)
             return result
         except Exception as e:
-            print('get_user_data_by_username: ' + str(e))
+            print("get_user_data_by_username: " + str(e))
 
     def get_user_data_by_username_and_token(username, magento_token):
         agent = Agent()
@@ -30,7 +40,7 @@ class usersDAO:
             result = agent.read(query)
             return result
         except Exception as e:
-            print('get_user_data_by_username_and_token: ' + str(e))
+            print("get_user_data_by_username_and_token: " + str(e))
 
     def update_user_data(username, magento_token):
         agent = Agent()
@@ -39,7 +49,7 @@ class usersDAO:
             result = agent.update(query)
             return result
         except Exception as e:
-            print('update_user_data: ' + str(e))
+            print("update_user_data: " + str(e))
 
     def update_username_by_id(username, id):
         agent = Agent()
@@ -48,7 +58,16 @@ class usersDAO:
             result = agent.update(query)
             return result
         except Exception as e:
-            print('update_user_email_by_id: ' + str(e))
+            print("update_user_email_by_id: " + str(e))
+
+    def update_moodle_token_by_id(moodle_token, id):
+        agent = Agent()
+        query = f"UPDATE users SET moodle_token = '{moodle_token}' WHERE id = '{id}'"
+        try:
+            result = agent.update(query)
+            return result
+        except Exception as e:
+            print("update_moodle_token_by_id: " + str(e))
 
     def update_token_date(magento_token):
         agent = Agent()
@@ -57,7 +76,7 @@ class usersDAO:
             result = agent.update(query)
             return result
         except Exception as e:
-            print('update_token_date: ' + str(e))
+            print("update_token_date: " + str(e))
 
     def create_user(id, username, magento_token, moodle_token):
         agent = Agent()
@@ -66,7 +85,7 @@ class usersDAO:
             result = agent.create(query)
             return result
         except Exception as e:
-            print('create_user: ' + str(e))
+            print("create_user: " + str(e))
 
     def create_and_update_user(id, username, magento_token, moodle_token):
         agent = Agent()
@@ -75,7 +94,7 @@ class usersDAO:
             result = agent.create(query)
             return result
         except Exception as e:
-            print('create_and_update_user: ' + str(e))
+            print("create_and_update_user: " + str(e))
 
     def remove_token_by_token(magento_token):
         agent = Agent()
@@ -84,4 +103,4 @@ class usersDAO:
             result = agent.update(query)
             return result
         except Exception as e:
-            print('remove_token_by_token: ' + str(e))
+            print("remove_token_by_token: " + str(e))

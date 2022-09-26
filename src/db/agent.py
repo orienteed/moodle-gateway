@@ -1,20 +1,18 @@
 import sqlite3
 
 
-class Agent():
-
-    def __new__(cls):
-        if not hasattr(cls, 'instance'):
-            cls.instance = super(Agent, cls).__new__(cls)
-        return cls.instance
+class Agent:
+    # def __new__(cls):
+    #     if not hasattr(cls, "instance"):
+    #         cls.instance = super(Agent, cls).__new__(cls)
+    #     return cls.instance
 
     def __init__(self):
         self.db_connection = None
         self.db_cursor = None
 
     def __conect__(self):
-        self.db_connection = sqlite3.connect(
-            'db/users.db', check_same_thread=False)
+        self.db_connection = sqlite3.connect("db/users.db")
         self.db_cursor = self.db_connection.cursor()
 
     def create(self, query):
