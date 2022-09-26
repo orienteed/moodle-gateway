@@ -8,14 +8,16 @@ from services.router import api_router
 
 def initialTasks():
     # Create thread to retrieve course and send them to elasticSearch every X min
-    print("""
+    print(
+        """
     ███╗   ███╗ ██████╗  ██████╗ ██████╗ ██╗     ███████╗     ██████╗  █████╗ ████████╗███████╗██╗    ██╗ █████╗ ██╗   ██╗
     ████╗ ████║██╔═══██╗██╔═══██╗██╔══██╗██║     ██╔════╝    ██╔════╝ ██╔══██╗╚══██╔══╝██╔════╝██║    ██║██╔══██╗╚██╗ ██╔╝
     ██╔████╔██║██║   ██║██║   ██║██║  ██║██║     █████╗      ██║  ███╗███████║   ██║   █████╗  ██║ █╗ ██║███████║ ╚████╔╝ 
     ██║╚██╔╝██║██║   ██║██║   ██║██║  ██║██║     ██╔══╝      ██║   ██║██╔══██║   ██║   ██╔══╝  ██║███╗██║██╔══██║  ╚██╔╝  
     ██║ ╚═╝ ██║╚██████╔╝╚██████╔╝██████╔╝███████╗███████╗    ╚██████╔╝██║  ██║   ██║   ███████╗╚███╔███╔╝██║  ██║   ██║   
     ╚═╝     ╚═╝ ╚═════╝  ╚═════╝ ╚═════╝ ╚══════╝╚══════╝     ╚═════╝ ╚═╝  ╚═╝   ╚═╝   ╚══════╝ ╚══╝╚══╝ ╚═╝  ╚═╝   ╚═╝                                                                                                             
-    """)
+    """
+    )
 
 
 def set_up():
@@ -34,6 +36,12 @@ def set_up():
     app.include_router(api_router, prefix="/lms/api/v1")
 
 
-app = FastAPI(title=title, description=description, contact=contact,
-              version=version, license_info=license_info, openapi_tags=tags_metadata)
+app = FastAPI(
+    title=title,
+    description=description,
+    contact=contact,
+    version=version,
+    license_info=license_info,
+    openapi_tags=tags_metadata,
+)
 set_up()

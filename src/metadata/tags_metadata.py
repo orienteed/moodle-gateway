@@ -1,8 +1,5 @@
 tags_metadata = [
-    {
-        "name": "Authentication",
-        "description": "Manage authentication. Authentication with Bearer token."
-    },
+    {"name": "Authentication", "description": "Manage authentication. Authentication with Bearer token."},
     {
         "name": "Courses",
         "description": "Manage courses.",
@@ -10,5 +7,5 @@ tags_metadata = [
             "description": "Moodle courses API",
             "url": "https://demo-moodle.orienteed.com/",
         },
-    }
+    },
 ]
