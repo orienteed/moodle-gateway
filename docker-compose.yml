@@ -3,7 +3,7 @@ services:
   moodle-gateway:
     build: .
     ports:
-      - 8081:8081
+      - 8082:8082
     environment:
       - MOODLE_URL_DOCKER=${MOODLE_URL_ENV}
       - MOODLE_API_KEY_DOCKER=${MOODLE_API_KEY_ENV}
