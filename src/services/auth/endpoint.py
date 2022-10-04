@@ -1,7 +1,7 @@
-from ..users.endpoint import createCustomer, getCustomer, getCustomerToken
+from ..users.endpoint import createCustomer, getCustomerToken
 from auth.middleware import VerifyTokenRoute
-from db.usersDAO import usersDAO
-from fastapi import APIRouter, Depends, Body, HTTPException, status
+from db.usersDAO import UsersDAO
+from fastapi import APIRouter, Depends
 from fastapi.requests import Request
 from fastapi.responses import JSONResponse
 from fastapi.security import HTTPBearer
@@ -21,7 +21,7 @@ async def login(authorization: str = Depends(token_auth_scheme), request: Reques
     magento_token = request.headers.get("api-authorization")
     username = customer.username
 
-    user = usersDAO.get_user_data_by_username(username)
+    user = UsersDAO.get_user_data_by_username(username)
     if user is None:
         customerId = createCustomer(customer, requestData["password"])["id"]
     else:
@@ -34,7 +34,7 @@ async def login(authorization: str = Depends(token_auth_scheme), request: Reques
         print("Error generating Moodle token")
 
     print("Inserting user in the db")
-    usersDAO.create_and_update_user(customerId, username, magento_token, moodle_token)
+    UsersDAO.create_and_update_user(customerId, username, magento_token, moodle_token)
 
     return JSONResponse({"message": "Login successfully"})
 
@@ -42,5 +42,5 @@ async def login(authorization: str = Depends(token_auth_scheme), request: Reques
 @router.post("/logout")
 async def logout(authorization: str = Depends(token_auth_scheme), request: Request = None):
     token = request.headers.get("api-authorization")
-    usersDAO.remove_token_by_token(token)
+    UsersDAO.remove_token_by_token(token)
     return JSONResponse({"message": "Logout successfully"})

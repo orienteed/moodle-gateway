@@ -1,5 +1,5 @@
 from auth.middleware import VerifyTokenRoute
-from db.usersDAO import usersDAO
+from db.usersDAO import UsersDAO
 from fastapi import APIRouter, Depends
 from fastapi.requests import Request
 from fastapi.responses import JSONResponse
@@ -14,10 +14,10 @@ token_auth_scheme = HTTPBearer()
 
 @router.get("/enroll")
 def enroll_user(authorization: str = Depends(token_auth_scheme), courseId: int = None, request: Request = None):
-    user_data = usersDAO.get_user_data_by_magento_token(request.headers.get("api-authorization"))
+    user_data = UsersDAO.get_user_data_by_magento_token(request.headers.get("api-authorization"))
     user_id = user_data[0]
 
-    customParams = {
+    custom_params = {
         "moodlewsrestformat": "json",
         "wstoken": os.getenv("MOODLE_API_KEY_DOCKER"),
         "wsfunction": "enrol_manual_enrol_users",
@@ -26,17 +26,17 @@ def enroll_user(authorization: str = Depends(token_auth_scheme), courseId: int =
         "enrolments[0][courseid]": courseId,
     }
 
-    reply = requests.get("{}/webservice/rest/server.php".format(os.getenv("MOODLE_URL_DOCKER")), params=customParams)
+    requests.get("{}/webservice/rest/server.php".format(os.getenv("MOODLE_URL_DOCKER")), params=custom_params)
 
     return JSONResponse({"message": "User enrolled successfully"})
 
 
 @router.get("/unenroll")
 def unenroll_user(authorization: str = Depends(token_auth_scheme), courseId: int = None, request: Request = None):
-    user_data = usersDAO.get_user_data_by_magento_token(request.headers.get("api-authorization"))
+    user_data = UsersDAO.get_user_data_by_magento_token(request.headers.get("api-authorization"))
     user_id = user_data[0]
 
-    customParams = {
+    custom_params = {
         "moodlewsrestformat": "json",
         "wstoken": os.getenv("MOODLE_API_KEY_DOCKER"),
         "wsfunction": "enrol_manual_unenrol_users",
@@ -45,7 +45,6 @@ def unenroll_user(authorization: str = Depends(token_auth_scheme), courseId: int
         "enrolments[0][courseid]": courseId,
     }
 
-    reply = requests.get("{}/webservice/rest/server.php".format(os.getenv("MOODLE_URL_DOCKER")), params=customParams)
+    requests.get("{}/webservice/rest/server.php".format(os.getenv("MOODLE_URL_DOCKER")), params=custom_params)
 
     return JSONResponse({"message": "User unenrolled successfully"})
-

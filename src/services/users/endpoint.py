@@ -1,5 +1,5 @@
 from auth.middleware import VerifyTokenRoute
-from db.usersDAO import usersDAO
+from db.usersDAO import UsersDAO
 from fastapi import APIRouter, Depends
 from fastapi.requests import Request
 from fastapi.responses import JSONResponse
@@ -14,7 +14,7 @@ token_auth_scheme = HTTPBearer()
 
 
 def createCustomer(customer: Customer, customerPassword):
-    customParams = {
+    custom_params = {
         "moodlewsrestformat": "json",
         "wstoken": os.getenv("MOODLE_API_KEY_DOCKER"),
         "wsfunction": "core_user_create_users",
@@ -25,7 +25,7 @@ def createCustomer(customer: Customer, customerPassword):
         "users[0][password]": customerPassword,
     }
 
-    reply = requests.get("{}/webservice/rest/server.php".format(os.getenv("MOODLE_URL_DOCKER")), params=customParams)
+    reply = requests.get("{}/webservice/rest/server.php".format(os.getenv("MOODLE_URL_DOCKER")), params=custom_params)
 
     if "exception" in reply.json():
         return getCustomer(customer)
@@ -34,7 +34,7 @@ def createCustomer(customer: Customer, customerPassword):
 
 
 def getCustomer(customer: Customer):
-    customParams = {
+    custom_params = {
         "moodlewsrestformat": "json",
         "wstoken": os.getenv("MOODLE_API_KEY_DOCKER"),
         "wsfunction": "core_user_get_users",
@@ -42,25 +42,25 @@ def getCustomer(customer: Customer):
         "criteria[0][value]": customer.username,
     }
 
-    reply = requests.get("{}/webservice/rest/server.php".format(os.getenv("MOODLE_URL_DOCKER")), params=customParams)
+    reply = requests.get("{}/webservice/rest/server.php".format(os.getenv("MOODLE_URL_DOCKER")), params=custom_params)
 
     return reply.json()["users"][0]
 
 
 def getCustomerToken(customer: Customer, customerPassword):
-    customParams = {"username": customer.username.lower(), "password": customerPassword, "service": "pruebas_2"}
+    custom_params = {"username": customer.username.lower(), "password": customerPassword, "service": "pruebas_2"}
 
-    reply = requests.get("{}/login/token.php".format(os.getenv("MOODLE_URL_DOCKER")), params=customParams)
+    reply = requests.get("{}/login/token.php".format(os.getenv("MOODLE_URL_DOCKER")), params=custom_params)
 
     return reply.json()["token"]
 
 
 @router.put("/")
 def modify_customer(authorization: str = Depends(token_auth_scheme), customer: Customer_update = None, request: Request = None):
-    user_data = usersDAO.get_user_data_by_magento_token(request.headers.get("api-authorization"))
+    user_data = UsersDAO.get_user_data_by_magento_token(request.headers.get("api-authorization"))
     user_id = user_data[0]
 
-    customParams = {
+    custom_params = {
         "moodlewsrestformat": "json",
         "wstoken": os.getenv("MOODLE_API_KEY_DOCKER"),
         "wsfunction": "core_user_update_users",
@@ -70,20 +70,20 @@ def modify_customer(authorization: str = Depends(token_auth_scheme), customer: C
     }
 
     if customer.firstname != "":
-        customParams["users[0][firstname]"] = customer.firstname
+        custom_params["users[0][firstname]"] = customer.firstname
 
     if customer.lastname != "":
-        customParams["users[0][lastname]"] = customer.lastname
+        custom_params["users[0][lastname]"] = customer.lastname
 
     if customer.password is not None:
-        customParams["users[0][password]"] = customer.password
+        custom_params["users[0][password]"] = customer.password
 
-    reply = requests.post("{}/webservice/rest/server.php".format(os.getenv("MOODLE_URL_DOCKER")), params=customParams)
+    reply = requests.post("{}/webservice/rest/server.php".format(os.getenv("MOODLE_URL_DOCKER")), params=custom_params)
 
     if reply.json() == None:
-        usersDAO.update_username_by_id(customer.username, user_id)
+        UsersDAO.update_username_by_id(customer.username, user_id)
         if customer.password:
             newMoodleToken = getCustomerToken(customer, customer.password)
-            usersDAO.update_moodle_token_by_id(newMoodleToken, user_id)
+            UsersDAO.update_moodle_token_by_id(newMoodleToken, user_id)
 
     return JSONResponse({"message": "User modification successfully"})

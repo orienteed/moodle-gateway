@@ -1,6 +1,6 @@
 from .graphql.validate_token import magento_validate_token
 from datetime import datetime, timedelta
-from db.usersDAO import usersDAO
+from db.usersDAO import UsersDAO
 from dotenv import load_dotenv
 from fastapi.requests import Request
 from fastapi.responses import JSONResponse
@@ -24,7 +24,7 @@ def modify_headers(request: Request, customer: Customer):
 
 async def verify_token_db(token):
     print("Verifying token...")
-    user_data = usersDAO.get_user_data_by_magento_token(token)
+    user_data = UsersDAO.get_user_data_by_magento_token(token)
     if user_data is not None:
         last_use_date = user_data[4]
         max_last_use_date = datetime.now() - timedelta(minutes=15)
@@ -36,12 +36,12 @@ async def verify_token_db(token):
 
 def update_date(token):
     print("Updating last use date...")
-    usersDAO.update_token_date(token)
+    UsersDAO.update_token_date(token)
 
 
 def update_token(username, token):
     print("Updating token...")
-    usersDAO.update_user_data(username, token)
+    UsersDAO.update_user_data(username, token)
 
 
 async def validate_token(token):
