@@ -1,11 +1,11 @@
-url = "demo-moodle"
+import os
 
 
 def remove_url(object_to_clean):
     if isinstance(object_to_clean, dict):
         for key, value in object_to_clean.items():
-            if isinstance(value, str) and url in value:
-                object_to_clean[key] = ""
+            if isinstance(value, str) and os.getenv("MOODLE_URL_DOCKER") in value:
+                object_to_clean[key] = object_to_clean[key].replace(os.getenv("MOODLE_URL_DOCKER"), "")
             elif isinstance(value, (list, dict)):
                 remove_url(value)
     elif isinstance(object_to_clean, list):
