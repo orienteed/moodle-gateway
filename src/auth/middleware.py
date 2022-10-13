@@ -27,7 +27,7 @@ class VerifyTokenRoute(APIRoute):
                         return await process_token_not_exist_db(request, token, verify_token_response, original_route)
 
             else:
-                return JSONResponse(content={"message": "Unauthorized, **no authorization header value**"}, status_code=401)
+                return JSONResponse(content={"error": "Unauthorized, no authorization header value"}, status_code=401)
 
         return verify_token_middleware
 
