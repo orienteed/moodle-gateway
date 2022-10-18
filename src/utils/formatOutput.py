@@ -1,3 +1,5 @@
+from datetime import datetime
+from logs.setup import logger
 import os
 
 
@@ -15,5 +17,7 @@ def remove_url(object_to_clean):
 
 
 def format_output(json_data):
+    logger.info("INFO    - [" + str(datetime.now()) + "]: Formatting output to remove Moodle URL")
     remove_url(json_data)
+    logger.info("INFO    - [" + str(datetime.now()) + "]: Output formatted successfully")
     return json_data
