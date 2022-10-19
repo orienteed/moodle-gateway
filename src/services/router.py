@@ -1,10 +1,10 @@
-from fastapi import APIRouter
 from .auth import endpoint as auth_endpoint
 from .completion import endpoint as completion_endpoint
 from .courses import endpoint as courses_endpoint
 from .enrollment import endpoint as enrollment_endpoint
 from .media import endpoint as media_endpoint
 from .users import endpoint as users_endpoint
+from fastapi import APIRouter
 
 api_router = APIRouter()
 

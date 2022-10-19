@@ -1,7 +1,7 @@
-from datetime import datetime
-import threading
 from .agent import Agent
-
+from datetime import datetime
+from logs.setup import logger
+import threading
 
 lock = threading.Lock()
 
@@ -13,10 +13,9 @@ class UsersDAO:
             agent = Agent()
             query = f"SELECT id, username, magento_token, moodle_token, last_use_date FROM users WHERE magento_token = '{magento_token}'"
             try:
-                result = agent.read(query)
-                return result
-            except Exception as e:
-                print("get_user_data_by_magento_token: " + str(e))
+                return agent.read(query)
+            except Exception:
+                logger.info("ERROR_DB   - [" + str(datetime.now()) + "]: get_user_data_by_magento_token", exc_info=1)
         finally:
             lock.release()
 
@@ -26,23 +25,9 @@ class UsersDAO:
             agent = Agent()
             query = f"SELECT id, username, magento_token, moodle_token, last_use_date FROM users WHERE username = '{username}'"
             try:
-                result = agent.read(query)
-                return result
-            except Exception as e:
-                print("get_user_data_by_username: " + str(e))
-        finally:
-            lock.release()
-
-    def get_user_data_by_username_and_token(username, magento_token):
-        try:
-            lock.acquire(True)
-            agent = Agent()
-            query = f"SELECT username, magento_token, moodle_token last_use_date FROM users WHERE username = '{username}' OR magento_token = '{magento_token}'"
-            try:
-                result = agent.read(query)
-                return result
-            except Exception as e:
-                print("get_user_data_by_username_and_token: " + str(e))
+                return agent.read(query)
+            except Exception:
+                logger.info("ERROR_DB   - [" + str(datetime.now()) + "]: get_user_data_by_username", exc_info=1)
         finally:
             lock.release()
 
@@ -52,10 +37,9 @@ class UsersDAO:
             agent = Agent()
             query = f"UPDATE users SET magento_token = '{magento_token}', last_use_date = '{datetime.now()}' WHERE username = '{username}'"
             try:
-                result = agent.update(query)
-                return result
-            except Exception as e:
-                print("update_user_data: " + str(e))
+                return agent.update(query)
+            except Exception:
+                logger.info("ERROR_DB   - [" + str(datetime.now()) + "]: update_user_data", exc_info=1)
         finally:
             lock.release()
 
@@ -65,10 +49,9 @@ class UsersDAO:
             agent = Agent()
             query = f"UPDATE users SET username = '{username}' WHERE id = '{id}'"
             try:
-                result = agent.update(query)
-                return result
-            except Exception as e:
-                print("update_user_email_by_id: " + str(e))
+                return agent.update(query)
+            except Exception:
+                logger.info("ERROR_DB   - [" + str(datetime.now()) + "]: update_user_email_by_id", exc_info=1)
         finally:
             lock.release()
 
@@ -78,10 +61,9 @@ class UsersDAO:
             agent = Agent()
             query = f"UPDATE users SET moodle_token = '{moodle_token}' WHERE id = '{id}'"
             try:
-                result = agent.update(query)
-                return result
-            except Exception as e:
-                print("update_moodle_token_by_id: " + str(e))
+                return agent.update(query)
+            except Exception:
+                logger.info("ERROR_DB   - [" + str(datetime.now()) + "]: update_moodle_token_by_id", exc_info=1)
         finally:
             lock.release()
 
@@ -91,10 +73,9 @@ class UsersDAO:
             agent = Agent()
             query = f"UPDATE users SET last_use_date = '{datetime.now()}' WHERE magento_token = '{magento_token}'"
             try:
-                result = agent.update(query)
-                return result
-            except Exception as e:
-                print("update_token_date: " + str(e))
+                return agent.update(query)
+            except Exception:
+                logger.info("ERROR_DB   - [" + str(datetime.now()) + "]: update_token_date", exc_info=1)
         finally:
             lock.release()
 
@@ -104,10 +85,9 @@ class UsersDAO:
             agent = Agent()
             query = f"INSERT INTO users (id, username, magento_token, moodle_token, last_use_date) VALUES ('{id}','{username}', '{magento_token}', '{moodle_token}', '{datetime.now()}')"
             try:
-                result = agent.create(query)
-                return result
-            except Exception as e:
-                print("create_user: " + str(e))
+                return agent.create(query)
+            except Exception:
+                logger.info("ERROR_DB   - [" + str(datetime.now()) + "]: create_user", exc_info=1)
         finally:
             lock.release()
 
@@ -117,10 +97,9 @@ class UsersDAO:
             agent = Agent()
             query = f"INSERT INTO users (id, username, magento_token, moodle_token, last_use_date) VALUES ('{id}','{username}', '{magento_token}', '{moodle_token}', '{datetime.now()}') ON CONFLICT(id) DO UPDATE SET magento_token='{magento_token}', moodle_token='{moodle_token}', last_use_date='{datetime.now()}'"
             try:
-                result = agent.create(query)
-                return result
-            except Exception as e:
-                print("create_and_update_user: " + str(e))
+                return agent.create(query)
+            except Exception:
+                logger.info("ERROR_DB   - [" + str(datetime.now()) + "]: create_and_update_user", exc_info=1)
         finally:
             lock.release()
 
@@ -130,9 +109,8 @@ class UsersDAO:
             agent = Agent()
             query = f"UPDATE users SET magento_token = '' WHERE magento_token = '{magento_token}'"
             try:
-                result = agent.update(query)
-                return result
-            except Exception as e:
-                print("remove_token_by_token: " + str(e))
+                return agent.update(query)
+            except Exception:
+                logger.info("ERROR_DB   - [" + str(datetime.now()) + "]: remove_token_by_token", exc_info=1)
         finally:
             lock.release()
