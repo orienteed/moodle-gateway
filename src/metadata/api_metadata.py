@@ -6,15 +6,27 @@ description = """ Intermediate API endpoint that encapsulates/handles the authen
 ## Authentication
 
 Before all, you must **Authenticate it**.
+## Autentication
+* Login
+* Logout
 
 ## Courses
-Reprehenderit nulla cupidatat sit id magna qui exercitation in dolor enim esse pariatur ad. Et amet sit mollit quis sint sint exercitation laborum quis reprehenderit. Pariatur fugiat sint tempor reprehenderit.
+* Get all courses
+* Get course details
+* Get course contents
+* Get course progress
+* Get courses by category
 
+## Completion
+* Mark as done
 
-* **Elit dolor eiusmod occaecat aute officia ea minim tempor officia Lorem nulla nisi laboris minim.**
-* **Labore in amet ad cupidatat qui exercitation laboris laborum dolor adipisicing quis duis labore aliqua.**
-* **Esse nulla anim sint eu enim.**
+## Enrollment
+* Enroll user
+* Unenroll user
 
+## Media
+* Get media course
+* Get media resource
 """
 
 version = "1.0.0"

@@ -7,7 +7,7 @@ from services.router import api_router
 
 
 def initial_tasks():
-    # Create thread to retrieve course and send them to elasticSearch every X min
+    # TODO: Create a thread to retrieve course and send them to elasticSearch every X min
     print(
         """
 ███╗   ███╗ ██████╗  ██████╗ ██████╗ ██╗     ███████╗     ██████╗  █████╗ ████████╗███████╗██╗    ██╗ █████╗ ██╗   ██╗
