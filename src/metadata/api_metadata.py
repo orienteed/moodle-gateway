@@ -2,31 +2,16 @@ from ensurepip import version
 
 
 title = "Moodle Gateway"
-description = """ Intermediate API endpoint that encapsulates/handles the authentication and request to the Moodle API (like a wrapper) and exposes a single, dedicated endpoint for POSTing the payloads.
-## Authentication
+description = """
+## What is Moodle Gateway?
+Moodle Gateway is an excellent tool for those who want to integrate Moodle with external systems but don't have the knowledge or time to develop a custom integration.
 
-Before all, you must **Authenticate it**.
-## Autentication
-* Login
-* Logout
+It is an intermediate API that encapsulates/handles the authentication and requests to the Moodle API (like a wrapper) and exposes some endpoints to interact with them. The Gateway is a straightforward and effective way to integrate Moodle with third-party systems.
 
-## Courses
-* Get all courses
-* Get course details
-* Get course contents
-* Get course progress
-* Get courses by category
+This software can be installed on a server and configured to listen for incoming requests from external systems. It then forwards those requests to Moodle using the Moodle API.
 
-## Completion
-* Mark as done
-
-## Enrollment
-* Enroll user
-* Unenroll user
-
-## Media
-* Get media course
-* Get media resource
+## How does it work?
+You should use the header 'api-authorization' with the Magento Customer token value to authenticate the requests.
 """
 
 version = "1.0.0"

@@ -19,7 +19,7 @@ Moodle Gateway is an excellent tool for those who want to integrate Moodle with 
 
 It is an intermediate API that encapsulates/handles the authentication and requests to the Moodle API (like a wrapper) and exposes some endpoints to interact with them. The Gateway is a straightforward and effective way to integrate Moodle with third-party systems.
 
-This software can be installed on a server and configured to listen for incoming requests from external systems. It then forwards those requests to Moodle using the Moodle Helpdesk API.
+This software can be installed on a server and configured to listen for incoming requests from external systems. It then forwards those requests to Moodle using the Moodle API.
 
 </br>
 
