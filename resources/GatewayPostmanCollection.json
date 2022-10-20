@@ -1,0 +1,444 @@
+{
+	"info": {
+		"_postman_id": "a6f5f047-b4be-4a9d-a01f-7dabc69146e0",
+		"name": "Moodle Gateway API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21365685"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"password\": \"{{customer_password}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{moodle_gateway}}/lms/api/v1/auth/login",
+							"host": [
+								"{{moodle_gateway}}"
+							],
+							"path": [
+								"lms",
+								"api",
+								"v1",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{moodle_gateway}}/lms/api/v1/auth/logout",
+							"host": [
+								"{{moodle_gateway}}"
+							],
+							"path": [
+								"lms",
+								"api",
+								"v1",
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Modify Customer",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"YOUR_USERNAME_HERE\",\n    \"firstname\": \"YOUR_FIRSTNAME_HERE\",\n    \"lastname\": \"YOUR_LASTNAME_HERE\",\n    \"password\": \"YOUR_PASSWORD_HERE\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{moodle_gateway}}/lms/api/v1/users/",
+							"host": [
+								"{{moodle_gateway}}"
+							],
+							"path": [
+								"lms",
+								"api",
+								"v1",
+								"users",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Courses",
+			"item": [
+				{
+					"name": "Get Courses",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{moodle_gateway}}/lms/api/v1/courses/",
+							"host": [
+								"{{moodle_gateway}}"
+							],
+							"path": [
+								"lms",
+								"api",
+								"v1",
+								"courses",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Course Details",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{moodle_gateway}}/lms/api/v1/courses/details?id=COURSE_ID",
+							"host": [
+								"{{moodle_gateway}}"
+							],
+							"path": [
+								"lms",
+								"api",
+								"v1",
+								"courses",
+								"details"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "COURSE_ID"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Course Content",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{moodle_gateway}}/lms/api/v1/courses/content?id=COURSE_ID&enrolled=IS_ENROLLED",
+							"host": [
+								"{{moodle_gateway}}"
+							],
+							"path": [
+								"lms",
+								"api",
+								"v1",
+								"courses",
+								"content"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "COURSE_ID"
+								},
+								{
+									"key": "enrolled",
+									"value": "IS_ENROLLED",
+									"description": "True / False"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Courses By Category",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{moodle_gateway}}/lms/api/v1/courses/category?categoryId=CATEGORY_ID",
+							"host": [
+								"{{moodle_gateway}}"
+							],
+							"path": [
+								"lms",
+								"api",
+								"v1",
+								"courses",
+								"category"
+							],
+							"query": [
+								{
+									"key": "categoryId",
+									"value": "CATEGORY_ID"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User Courses",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{moodle_gateway}}/lms/api/v1/courses/progress",
+							"host": [
+								"{{moodle_gateway}}"
+							],
+							"path": [
+								"lms",
+								"api",
+								"v1",
+								"courses",
+								"progress"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Completion",
+			"item": [
+				{
+					"name": "Mark As Done",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{moodle_gateway}}/lms/api/v1/completion/done?courseModuleId=COURSE_MODULE_ID",
+							"host": [
+								"{{moodle_gateway}}"
+							],
+							"path": [
+								"lms",
+								"api",
+								"v1",
+								"completion",
+								"done"
+							],
+							"query": [
+								{
+									"key": "courseModuleId",
+									"value": "COURSE_MODULE_ID"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Enrollment",
+			"item": [
+				{
+					"name": "Enroll user",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{moodle_gateway}}/lms/api/v1/enrollment/enroll?courseId=COURSE_ID",
+							"host": [
+								"{{moodle_gateway}}"
+							],
+							"path": [
+								"lms",
+								"api",
+								"v1",
+								"enrollment",
+								"enroll"
+							],
+							"query": [
+								{
+									"key": "courseId",
+									"value": "COURSE_ID"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Unenroll user",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{moodle_gateway}}/lms/api/v1/enrollment/unenroll?courseId=COURSE_ID",
+							"host": [
+								"{{moodle_gateway}}"
+							],
+							"path": [
+								"lms",
+								"api",
+								"v1",
+								"enrollment",
+								"unenroll"
+							],
+							"query": [
+								{
+									"key": "courseId",
+									"value": "COURSE_ID"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Media",
+			"item": [
+				{
+					"name": "Get Media Course",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{moodle_gateway}}/lms/api/v1/media/course?uri=MEDIA_COURSE_URI",
+							"host": [
+								"{{moodle_gateway}}"
+							],
+							"path": [
+								"lms",
+								"api",
+								"v1",
+								"media",
+								"course"
+							],
+							"query": [
+								{
+									"key": "uri",
+									"value": "MEDIA_COURSE_URI"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Media Resource",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{moodle_gateway}}/lms/api/v1/media/resource?uri=MEDIA_RESOURCE_URI",
+							"host": [
+								"{{moodle_gateway}}"
+							],
+							"path": [
+								"lms",
+								"api",
+								"v1",
+								"media",
+								"resource"
+							],
+							"query": [
+								{
+									"key": "uri",
+									"value": "MEDIA_RESOURCE_URI"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "Token",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.request.headers.add({",
+					"    // These keys appears when you set a header by hand. Just for fun they are here",
+					"    disabled: false,",
+					"    description: {",
+					"        content: \"Authorization header\",",
+					"        type: \"text/plain\"",
+					"    },",
+					"    // Your header, effectively",
+					"    key: 'api-authorization',",
+					"    name: 'Authorization header',",
+					"    // If you set a variable you can access it",
+					"    // HeaderTest here has value=\"ValueHeaderTest\"",
+					"    value: pm.collectionVariables.get(\"signin_token\")",
+					"});"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "moodle_gateway",
+			"value": "YOUR_MOODLE_URL_HERE",
+			"type": "string"
+		},
+		{
+			"key": "signin_token",
+			"value": "YOUR_TOKEN_HERE",
+			"type": "string"
+		},
+		{
+			"key": "customer_password",
+			"value": "YOUR_PASSWORD_HERE",
+			"type": "string"
+		}
+	]
+}
