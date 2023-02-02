@@ -8,3 +8,6 @@ services:
       - MOODLE_URL_DOCKER=${MOODLE_URL_ENV}
       - MOODLE_API_KEY_DOCKER=${MOODLE_API_KEY_ENV}
       - MAGENTO_URL_DOCKER=${MAGENTO_URL_ENV}
+    volumes:
+      - ./src:/app
+    restart: unless-stopped
